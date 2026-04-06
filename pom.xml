@@ -39,7 +39,7 @@
 
         <!-- Test dependency versions -->
         <junit.version>5.11.4</junit.version>
-        <assertj.version>3.27.3</assertj.version>
+        <assertj.version>3.27.7</assertj.version>
         <maven-plugin-testing.version>3.3.0</maven-plugin-testing.version>
     </properties>
 
