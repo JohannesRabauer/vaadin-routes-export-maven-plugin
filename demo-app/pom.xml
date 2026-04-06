@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.rabauer</groupId>
+        <artifactId>vaadin-routes-export-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>vaadin-routes-export-demo</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Vaadin Routes Export – Demo Application</name>
+    <description>
+        A minimal Vaadin 24 application that demonstrates how to use
+        the vaadin-routes-export-maven-plugin to export route metadata.
+    </description>
+
+    <properties>
+        <vaadin.version>24.7.4</vaadin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <version>${vaadin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Vaadin -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-core</artifactId>
+        </dependency>
+
+        <!-- Jakarta Security Annotations -->
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- ============================================================ -->
+            <!-- Vaadin Routes Export Maven Plugin                            -->
+            <!-- Runs during 'process-classes' and writes route metadata to   -->
+            <!-- target/vaadin-routes.json                                    -->
+            <!-- ============================================================ -->
+            <plugin>
+                <groupId>dev.rabauer</groupId>
+                <artifactId>vaadin-routes-export-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>export-routes</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <basePackage>dev.rabauer.demo</basePackage>
+                    <outputFile>${project.build.directory}/vaadin-routes.json</outputFile>
+                    <outputFormat>JSON</outputFormat>
+                    <includeLayouts>true</includeLayouts>
+                    <includeAnonymousAccess>true</includeAnonymousAccess>
+                    <failOnMissingRoles>false</failOnMissingRoles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

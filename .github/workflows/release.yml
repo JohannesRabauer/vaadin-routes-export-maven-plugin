@@ -1,0 +1,57 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-release:
+    name: Build, Test and Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build and test
+        run: mvn --batch-mode verify
+
+      - name: Determine release version
+        id: version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout -pl vaadin-routes-export-maven-plugin)
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${VERSION}-${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Release ${{ steps.version.outputs.tag }}
+          body: |
+            Automated release from commit ${{ github.sha }}.
+
+            **Plugin coordinates:**
+            ```xml
+            <groupId>dev.rabauer</groupId>
+            <artifactId>vaadin-routes-export-maven-plugin</artifactId>
+            <version>${{ steps.version.outputs.version }}</version>
+            ```
+          files: |
+            vaadin-routes-export-maven-plugin/target/*.jar
+            demo-app/target/vaadin-routes.json
+          generate_release_notes: true
