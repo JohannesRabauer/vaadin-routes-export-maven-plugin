@@ -29,8 +29,6 @@ import java.util.List;
  *
  * <p>Binds by default to the {@code process-classes} phase so that compiled
  * {@code .class} files are available without executing the Vaadin runtime.</p>
- *
- * @goal export-routes
  */
 @Mojo(
         name = "export-routes",

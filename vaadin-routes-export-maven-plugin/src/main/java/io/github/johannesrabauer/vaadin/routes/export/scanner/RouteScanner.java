@@ -277,9 +277,12 @@ public class RouteScanner {
         String raw = String.valueOf(value);
         // Remove ClassGraph "class reference" wrapper if present, e.g. "class com.example.Foo"
         if (raw.startsWith("class ")) {
-            return raw.substring("class ".length()).trim();
+            raw = raw.substring("class ".length()).trim();
         }
-        // ClassGraph may return the class name directly
+        // ClassGraph AnnotationClassRef may include a trailing ".class" suffix
+        if (raw.endsWith(".class")) {
+            raw = raw.substring(0, raw.length() - ".class".length());
+        }
         return raw;
     }
 }

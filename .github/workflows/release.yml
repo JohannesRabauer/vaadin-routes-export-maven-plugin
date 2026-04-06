@@ -32,7 +32,7 @@ jobs:
       - name: Determine release version
         id: version
         run: |
-          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout -pl vaadin-routes-export-maven-plugin)
           SHORT_SHA=$(git rev-parse --short HEAD)
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "tag=${VERSION}-${SHORT_SHA}" >> "$GITHUB_OUTPUT"
@@ -52,5 +52,6 @@ jobs:
             <version>${{ steps.version.outputs.version }}</version>
             ```
           files: |
-            target/*.jar
+            vaadin-routes-export-maven-plugin/target/*.jar
+            demo-app/target/vaadin-routes.json
           generate_release_notes: true
