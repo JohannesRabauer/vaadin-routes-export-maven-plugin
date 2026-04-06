@@ -27,7 +27,7 @@ Add the plugin to your Vaadin project's `pom.xml`:
 
 ```xml
 <plugin>
-    <groupId>io.github.johannesrabauer</groupId>
+    <groupId>dev.rabauer</groupId>
     <artifactId>vaadin-routes-export-maven-plugin</artifactId>
     <version>1.0.0</version>
     <executions>
@@ -122,8 +122,8 @@ After building the demo application, the plugin produces the following `vaadin-r
 [
   {
     "path": "admin",
-    "className": "io.github.johannesrabauer.demo.views.AdminView",
-    "layouts": ["io.github.johannesrabauer.demo.layouts.MainLayout"],
+    "className": "dev.rabauer.demo.views.AdminView",
+    "layouts": ["dev.rabauer.demo.layouts.MainLayout"],
     "roles": ["ADMIN"],
     "access": "RESTRICTED",
     "aliases": ["admin-panel"],
@@ -131,31 +131,31 @@ After building the demo application, the plugin produces the following `vaadin-r
   },
   {
     "path": "dashboard",
-    "className": "io.github.johannesrabauer.demo.views.DashboardView",
-    "layouts": ["io.github.johannesrabauer.demo.layouts.MainLayout"],
+    "className": "dev.rabauer.demo.views.DashboardView",
+    "layouts": ["dev.rabauer.demo.layouts.MainLayout"],
     "roles": ["*"],
     "access": "PUBLIC",
     "securitySource": "ANNOTATION"
   },
   {
     "path": "",
-    "className": "io.github.johannesrabauer.demo.views.HomeView",
-    "layouts": ["io.github.johannesrabauer.demo.layouts.MainLayout"],
+    "className": "dev.rabauer.demo.views.HomeView",
+    "layouts": ["dev.rabauer.demo.layouts.MainLayout"],
     "roles": ["*"],
     "access": "PUBLIC",
     "securitySource": "ANNOTATION"
   },
   {
     "path": "internal",
-    "className": "io.github.johannesrabauer.demo.views.InternalView",
-    "layouts": ["io.github.johannesrabauer.demo.layouts.MainLayout"],
+    "className": "dev.rabauer.demo.views.InternalView",
+    "layouts": ["dev.rabauer.demo.layouts.MainLayout"],
     "roles": [],
     "access": "DENIED",
     "securitySource": "ANNOTATION"
   },
   {
     "path": "login",
-    "className": "io.github.johannesrabauer.demo.views.LoginView",
+    "className": "dev.rabauer.demo.views.LoginView",
     "layouts": [],
     "roles": ["*"],
     "access": "PUBLIC",
@@ -163,8 +163,8 @@ After building the demo application, the plugin produces the following `vaadin-r
   },
   {
     "path": "profile",
-    "className": "io.github.johannesrabauer.demo.views.ProfileView",
-    "layouts": ["io.github.johannesrabauer.demo.layouts.MainLayout"],
+    "className": "dev.rabauer.demo.views.ProfileView",
+    "layouts": ["dev.rabauer.demo.layouts.MainLayout"],
     "roles": ["USER", "ADMIN"],
     "access": "RESTRICTED",
     "securitySource": "ANNOTATION"
