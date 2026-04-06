@@ -24,7 +24,10 @@ public class JsonRouteWriter implements RouteWriter {
 
     @Override
     public void write(List<RouteDescriptor> routes, File outputFile) throws IOException {
-        outputFile.getParentFile().mkdirs();
+        File parent = outputFile.getParentFile();
+        if (parent != null) {
+            parent.mkdirs();
+        }
         objectMapper.writeValue(outputFile, routes);
     }
 }

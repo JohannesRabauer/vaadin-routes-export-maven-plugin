@@ -22,7 +22,10 @@ public class CsvRouteWriter implements RouteWriter {
 
     @Override
     public void write(List<RouteDescriptor> routes, File outputFile) throws IOException {
-        outputFile.getParentFile().mkdirs();
+        File parent = outputFile.getParentFile();
+        if (parent != null) {
+            parent.mkdirs();
+        }
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8))) {
             writer.write(HEADER);

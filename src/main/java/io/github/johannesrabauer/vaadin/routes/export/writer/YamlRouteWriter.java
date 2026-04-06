@@ -22,7 +22,10 @@ public class YamlRouteWriter implements RouteWriter {
 
     @Override
     public void write(List<RouteDescriptor> routes, File outputFile) throws IOException {
-        outputFile.getParentFile().mkdirs();
+        File parent = outputFile.getParentFile();
+        if (parent != null) {
+            parent.mkdirs();
+        }
 
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
