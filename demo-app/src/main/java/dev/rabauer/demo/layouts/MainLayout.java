@@ -7,6 +7,8 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
+import dev.rabauer.demo.views.AccountSettingsView;
+import dev.rabauer.demo.views.SecuritySettingsView;
 
 /**
  * Main application layout with navigation drawer.
@@ -40,6 +42,9 @@ public class MainLayout extends AppLayout {
                 new RouterLink("Dashboard", dev.rabauer.demo.views.DashboardView.class),
                 new RouterLink("Admin", dev.rabauer.demo.views.AdminView.class),
                 new RouterLink("Profile", dev.rabauer.demo.views.ProfileView.class),
+                new RouterLink("Settings", dev.rabauer.demo.layouts.SettingsLayout.class),
+                new RouterLink("Settings › Account", AccountSettingsView.class),
+                new RouterLink("Settings › Security", SecuritySettingsView.class),
                 new RouterLink("Login", dev.rabauer.demo.views.LoginView.class)
         );
         addToDrawer(nav);
