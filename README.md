@@ -85,18 +85,23 @@ The output file will be at `target/vaadin-routes.json`.
 
 ## Demo Application
 
-The [`demo-app`](demo-app/) module is a minimal **Vaadin 24.7.4** application that shows the plugin in action. It contains six views, each demonstrating a different security annotation:
+The [`demo-app`](demo-app/) module is a minimal **Vaadin 24.7.4** application that shows the plugin in action. It contains nine views/layouts, each demonstrating a different security annotation or nesting pattern:
 
-| View            | Route path   | Security              | Layout        |
-|-----------------|--------------|-----------------------|---------------|
-| `HomeView`      | `/` (root)   | `@AnonymousAllowed`   | `MainLayout`  |
-| `DashboardView` | `/dashboard` | `@PermitAll`          | `MainLayout`  |
-| `AdminView`     | `/admin`     | `@RolesAllowed("ADMIN")` | `MainLayout` |
-| `ProfileView`   | `/profile`   | `@RolesAllowed({"USER","ADMIN"})` | `MainLayout` |
-| `InternalView`  | `/internal`  | `@DenyAll`            | `MainLayout`  |
-| `LoginView`     | `/login`     | `@AnonymousAllowed`   | *(none)*      |
+| View / Layout          | Route path            | Security                           | Layout                     |
+|------------------------|-----------------------|------------------------------------|----------------------------|
+| `HomeView`             | `/` (root)            | `@AnonymousAllowed`                | `MainLayout`               |
+| `DashboardView`        | `/dashboard`          | `@PermitAll`                       | `MainLayout`               |
+| `AdminView`            | `/admin`              | `@RolesAllowed("ADMIN")`           | `MainLayout`               |
+| `ProfileView`          | `/profile`            | `@RolesAllowed({"USER","ADMIN"})`  | `MainLayout`               |
+| `InternalView`         | `/internal`           | `@DenyAll`                         | `MainLayout`               |
+| `LoginView`            | `/login`              | `@AnonymousAllowed`                | *(none)*                   |
+| `SettingsLayout`       | `/settings`           | `@RolesAllowed({"USER","ADMIN"})`  | `MainLayout`               |
+| `AccountSettingsView`  | `/settings/account`   | `@RolesAllowed({"USER","ADMIN"})`  | `SettingsLayout → MainLayout` |
+| `SecuritySettingsView` | `/settings/security`  | `@RolesAllowed({"USER","ADMIN"})`  | `SettingsLayout → MainLayout` |
 
 `AdminView` also declares a `@RouteAlias("admin-panel")`.
+
+`SettingsLayout` doubles as both a navigable view (`/settings`) and the parent `RouterLayout` for the two nested settings views.  This demonstrates how the plugin resolves a **multi-level layout chain** (`MainLayout → SettingsLayout → child view`).
 
 ### Running the demo
 
@@ -120,6 +125,14 @@ After building the demo application, the plugin produces the following `vaadin-r
 
 ```json
 [
+  {
+    "path": "account",
+    "className": "dev.rabauer.demo.views.AccountSettingsView",
+    "layouts": ["dev.rabauer.demo.layouts.SettingsLayout", "dev.rabauer.demo.layouts.MainLayout"],
+    "roles": ["USER", "ADMIN"],
+    "access": "RESTRICTED",
+    "securitySource": "ANNOTATION"
+  },
   {
     "path": "admin",
     "className": "dev.rabauer.demo.views.AdminView",
@@ -164,6 +177,22 @@ After building the demo application, the plugin produces the following `vaadin-r
   {
     "path": "profile",
     "className": "dev.rabauer.demo.views.ProfileView",
+    "layouts": ["dev.rabauer.demo.layouts.MainLayout"],
+    "roles": ["USER", "ADMIN"],
+    "access": "RESTRICTED",
+    "securitySource": "ANNOTATION"
+  },
+  {
+    "path": "security",
+    "className": "dev.rabauer.demo.views.SecuritySettingsView",
+    "layouts": ["dev.rabauer.demo.layouts.SettingsLayout", "dev.rabauer.demo.layouts.MainLayout"],
+    "roles": ["USER", "ADMIN"],
+    "access": "RESTRICTED",
+    "securitySource": "ANNOTATION"
+  },
+  {
+    "path": "settings",
+    "className": "dev.rabauer.demo.layouts.SettingsLayout",
     "layouts": ["dev.rabauer.demo.layouts.MainLayout"],
     "roles": ["USER", "ADMIN"],
     "access": "RESTRICTED",
