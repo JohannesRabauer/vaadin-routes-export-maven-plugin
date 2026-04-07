@@ -22,10 +22,10 @@
     <properties>
         <!-- Dependency versions -->
         <maven.version>3.9.14</maven.version>
-        <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
+        <maven-plugin-annotations.version>3.15.2</maven-plugin-annotations.version>
         <classgraph.version>4.8.179</classgraph.version>
-        <jackson.version>2.18.3</jackson.version>
-        <snakeyaml.version>2.3</snakeyaml.version>
+        <jackson.version>2.21.2</jackson.version>
+        <snakeyaml.version>2.6</snakeyaml.version>
 
         <!-- Test dependency versions -->
         <junit.version>5.11.4</junit.version>
