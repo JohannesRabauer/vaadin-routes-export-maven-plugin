@@ -7,6 +7,7 @@ import dev.rabauer.vaadin.routes.export.scanner.RouteScanner;
 import dev.rabauer.vaadin.routes.export.writer.CsvRouteWriter;
 import dev.rabauer.vaadin.routes.export.writer.JsonRouteWriter;
 import dev.rabauer.vaadin.routes.export.writer.RouteWriter;
+import dev.rabauer.vaadin.routes.export.writer.XmlRouteWriter;
 import dev.rabauer.vaadin.routes.export.writer.YamlRouteWriter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -60,7 +61,7 @@ public class ExportRoutesMojo extends AbstractMojo {
     private File outputFile;
 
     /**
-     * Output format: {@code JSON} (default), {@code CSV}, or {@code YAML}.
+     * Output format: {@code JSON} (default), {@code CSV}, {@code YAML}, or {@code XML}.
      */
     @Parameter(property = "vaadin.routes.outputFormat", defaultValue = "JSON")
     private OutputFormat outputFormat = OutputFormat.JSON;
@@ -166,6 +167,7 @@ public class ExportRoutesMojo extends AbstractMojo {
         return switch (outputFormat) {
             case CSV  -> new CsvRouteWriter();
             case YAML -> new YamlRouteWriter();
+            case XML  -> new XmlRouteWriter();
             default   -> new JsonRouteWriter();
         };
     }
