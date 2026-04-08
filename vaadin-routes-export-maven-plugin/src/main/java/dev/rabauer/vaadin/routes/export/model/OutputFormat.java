@@ -9,5 +9,7 @@ public enum OutputFormat {
     /** Comma-separated values. */
     CSV,
     /** YAML for human-readable DevOps contexts. */
-    YAML
+    YAML,
+    /** XML for tool-chain integration. */
+    XML
 }

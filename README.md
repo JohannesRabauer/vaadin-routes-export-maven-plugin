@@ -6,7 +6,7 @@ A Maven plugin that **statically analyses** compiled [Vaadin](https://vaadin.com
 * Layout hierarchy
 * Security annotations (`@RolesAllowed`, `@PermitAll`, `@DenyAll`, `@AnonymousAllowed`)
 
-The output is a structured artifact (JSON, CSV, or YAML) suitable for documentation, security audits, and CI validation.
+The output is a structured artifact (JSON, CSV, YAML, or XML) suitable for documentation, security audits, and CI validation.
 
 ---
 
@@ -61,7 +61,7 @@ The output file will be at `target/vaadin-routes.json`.
 |------------------------|---------|----------|--------------------------------------------|------------------------------------------------------------------|
 | `basePackage`          | String  | **yes**  | —                                          | Root Java package to scan for `@Route` classes                   |
 | `outputFile`           | String  | **yes**  | `${project.build.directory}/vaadin-routes.json` | Path of the generated export file                            |
-| `outputFormat`         | Enum    | no       | `JSON`                                     | Output format: `JSON`, `CSV`, or `YAML`                          |
+| `outputFormat`         | Enum    | no       | `JSON`                                     | Output format: `JSON`, `CSV`, `YAML`, or `XML`                   |
 | `includeLayouts`       | boolean | no       | `true`                                     | Include the `RouterLayout` chain for each route                  |
 | `includeAnonymousAccess` | boolean | no     | `true`                                     | Include publicly accessible routes in the output                 |
 | `failOnMissingRoles`   | boolean | no       | `false`                                    | Fail the build if any route has no security annotation           |
@@ -222,7 +222,7 @@ After building the demo application, the plugin produces the following `vaadin-r
 3. **Route extraction** – extracts the route value, layout class, and any aliases.
 4. **Layout hierarchy resolution** – recursively resolves the `RouterLayout` parent chain.
 5. **Security annotation extraction** – maps `@RolesAllowed`, `@PermitAll`, `@DenyAll`, and `@AnonymousAllowed` to roles and access levels.
-6. **Output generation** – writes JSON (default), CSV, or YAML.
+6. **Output generation** – writes JSON (default), CSV, YAML, or XML.
 
 > **Important:** The plugin does *not* start the Vaadin runtime. It operates entirely on compiled bytecode, which means programmatic or dynamic route registrations cannot be captured.
 
@@ -238,7 +238,7 @@ cd vaadin-routes-export-maven-plugin
 mvn clean verify
 ```
 
-This builds the plugin, runs all 15 unit tests, and generates the demo route export.
+This builds the plugin, runs all 19 unit tests, and generates the demo route export.
 
 ---
 

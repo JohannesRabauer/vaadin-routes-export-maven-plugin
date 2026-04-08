@@ -5,6 +5,7 @@ import dev.rabauer.vaadin.routes.export.model.RouteDescriptor;
 import dev.rabauer.vaadin.routes.export.model.SecuritySource;
 import dev.rabauer.vaadin.routes.export.writer.CsvRouteWriter;
 import dev.rabauer.vaadin.routes.export.writer.JsonRouteWriter;
+import dev.rabauer.vaadin.routes.export.writer.XmlRouteWriter;
 import dev.rabauer.vaadin.routes.export.writer.YamlRouteWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -132,5 +133,60 @@ class RouteWriterTest {
         File out = new File(tempDir, "empty.yaml");
         new YamlRouteWriter().write(List.of(), out);
         assertThat(out).exists();
+    }
+
+    // -------------------------------------------------------------------------
+    // XML writer
+    // -------------------------------------------------------------------------
+
+    @Test
+    void xmlWriterProducesValidXml() throws Exception {
+        File out = new File(tempDir, "routes.xml");
+        new XmlRouteWriter().write(List.of(adminRoute(), rootRoute()), out);
+
+        String content = Files.readString(out.toPath(), StandardCharsets.UTF_8);
+        assertThat(content).contains("<routes>");
+        assertThat(content).contains("<route>");
+        assertThat(content).contains("<path>admin</path>");
+        assertThat(content).contains("<className>com.example.AdminView</className>");
+        assertThat(content).contains("<role>ADMIN</role>");
+        assertThat(content).contains("<role>SUPERUSER</role>");
+        assertThat(content).contains("<access>RESTRICTED</access>");
+        assertThat(content).contains("<layout>com.example.MainLayout</layout>");
+    }
+
+    @Test
+    void xmlWriterHandlesEmptyList() throws Exception {
+        File out = new File(tempDir, "empty.xml");
+        new XmlRouteWriter().write(List.of(), out);
+        String content = Files.readString(out.toPath(), StandardCharsets.UTF_8);
+        assertThat(content).contains("<routes");
+        assertThat(content).doesNotContain("<route>");
+    }
+
+    @Test
+    void xmlWriterCreatesParentDirectories() throws Exception {
+        File out = new File(tempDir, "deep/nested/routes.xml");
+        new XmlRouteWriter().write(List.of(adminRoute()), out);
+        assertThat(out).exists();
+    }
+
+    @Test
+    void xmlWriterOmitsNullAndEmptyFields() throws Exception {
+        RouteDescriptor route = new RouteDescriptor();
+        route.setPath("public");
+        route.setClassName("com.example.PublicView");
+        route.setAccess(AccessType.PUBLIC);
+
+        File out = new File(tempDir, "minimal.xml");
+        new XmlRouteWriter().write(List.of(route), out);
+
+        String content = Files.readString(out.toPath(), StandardCharsets.UTF_8);
+        assertThat(content).contains("<path>public</path>");
+        assertThat(content).doesNotContain("<layouts>");
+        assertThat(content).doesNotContain("<roles>");
+        assertThat(content).doesNotContain("<securitySource>");
+        assertThat(content).doesNotContain("<aliases>");
+        assertThat(content).doesNotContain("<dynamic>");
     }
 }
