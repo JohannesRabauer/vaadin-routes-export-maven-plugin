@@ -89,7 +89,7 @@ public class XmlRouteWriter implements RouteWriter {
             routeEl.appendChild(layoutsEl);
         }
 
-        if (route.getRoles() != null) {
+        if (route.getRoles() != null && !route.getRoles().isEmpty()) {
             Element rolesEl = doc.createElement("roles");
             for (String role : route.getRoles()) {
                 appendText(doc, rolesEl, "role", role);
